@@ -1,11 +1,11 @@
 import { ItemStyled } from "./ListItemStyled";
 import PropTypes from "prop-types";
 export function LI({ contact, children}) {
-    const { name, number } = contact;
+    const { name, phone } = contact;
     return <ItemStyled>
         <p>{name}</p>
         <span>:</span>
-        <p>{number}</p>
+        <p>{phone}</p>
         {children}
     </ItemStyled>
 }

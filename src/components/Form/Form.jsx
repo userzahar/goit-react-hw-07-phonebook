@@ -1,25 +1,27 @@
+// import { addContact } from "redux/contacts/contactSlice";
 import { Button } from "components/Button/Button";
 import { LabelStyled } from "components/Filter/FilterStyled";
 import { nanoid } from "nanoid";
 import { useState } from "react";
 import { InputStyled } from "./StyledInput";
 import { useDispatch, useSelector } from "react-redux";
-import { addContact } from "redux/contacts/contactSlice";
+import { createContactsThunk, getContactsThunk } from "redux/contacts/thunk";
 
 export function Form() {
-    const { contacts } = useSelector(state => state.contacts);
+    const { items } = useSelector(state => state.contacts.contacts);
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
     const dispatch = useDispatch();
     // !________________________________
-    const createContacts = (data) => {
+    const createContacts = async (data) => {
 
-    if (contacts.find(contact => contact.name === data.name)) {
+    if (items.find(contact => contact.name === data.name)) {
       alert(`${data.name} is alredy in contacts`)
       return false;
     } else {
       console.log("💥", data);
-      dispatch(addContact(data))
+        const okay = await dispatch(createContactsThunk(data));
+        dispatch(getContactsThunk());
     }
     }
     // ! -------------------------
@@ -35,12 +37,11 @@ export function Form() {
         }
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        let cteateContact = createContacts({
-            name: name,
-            number: number,
-            id:nanoid(),
+        let cteateContact = await createContacts({
+            name,
+            phone: number,
         })
 
         if (cteateContact === undefined) {

@@ -11,6 +11,5 @@ const filterSlice = createSlice({
 });
 
 export const filterReducer = filterSlice.reducer;
-console.log('🚀 ~ filterReducer:', filterReducer);
 
 export const { filterContacts } = filterSlice.actions;

@@ -1,26 +1,20 @@
+// import { deleteContact } from "redux/contacts/contactSlice";
 import { Button } from "components/Button/Button";
 import { LI } from "./ListItem";
 import { ListStyled } from "./StyledContactList";
 import { useDispatch, useSelector } from "react-redux";
-// import { deleteContact } from "redux/contacts/contactSlice";
 import { useEffect } from "react";
 import { deleteContactsThunk, getContactsThunk } from "redux/contacts/thunk";
 
 export function ContactList() {
-    const dispatch = useDispatch();
     const { filter } = useSelector(state => {
-            return state.filter
+        return state.filter
     });
-    // console.log("💤",useEffect(() => {
-        // dispatch(getContactsThunk)
-    // }, [dispatch]))
-    // console.log(dispatch(deleteContactsThunk('contacts/delete', 3)))
-    const { items,isLoading,error } = useSelector(state => state.contacts.contacts);
-    console.log("🚀 ~ items:", items, isLoading, error)
-
+    const { items, isLoading, error } = useSelector(state => state.contacts.contacts);
+    const dispatch = useDispatch();
     
     useEffect(() => {
-        console.log("🚀 ~ :", dispatch(getContactsThunk()))
+        dispatch(getContactsThunk())
     }, [dispatch])
     
     const filteredContacts = () => {
@@ -32,14 +26,18 @@ export function ContactList() {
         })
   }
     
-    const handleDelete = (id) => {
-                 dispatch(deleteContactsThunk(id))
+    const handleDelete = async (id) => {
+        const data = await dispatch(deleteContactsThunk(id))
+        dispatch(getContactsThunk())
              }
-        return <ListStyled>
+    return <>
+        {isLoading && <h2>IS LOADING....</h2>}
+        {!error && items.length!==0 && <ListStyled>
             {filteredContacts()?.map((contact) => (
                 <LI key={contact.id} contact={contact}>
                     <Button text="Delete" clickHeandler={()=>handleDelete(contact.id)}/>
                 </LI>)
                 )}
-            </ListStyled>
+        </ListStyled>}
+            {error && <h3>Error code:404</h3> }</>
 }
