@@ -19,9 +19,9 @@ export function Form() {
       alert(`${data.name} is alredy in contacts`)
       return false;
     } else {
-      console.log("💥", data);
         const okay = await dispatch(createContactsThunk(data));
         dispatch(getContactsThunk());
+        console.log("💥", okay)
     }
     }
     // ! -------------------------

@@ -29,6 +29,7 @@ export function ContactList() {
     const handleDelete = async (id) => {
         const data = await dispatch(deleteContactsThunk(id))
         dispatch(getContactsThunk())
+        console.log("🚀 ~ data:", data)
              }
     return <>
         {isLoading && <h2>IS LOADING....</h2>}
