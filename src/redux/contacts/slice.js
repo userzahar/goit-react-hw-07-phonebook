@@ -10,6 +10,7 @@ const handlePending = state => {
   state.contacts.isLoading = true;
 };
 const handleFulfilledGet = (state, { payload }) => {
+  console.log('🚀 💚', state.contacts.items);
   state.contacts.isLoading = false;
   state.contacts.items = payload;
   state.contacts.error = '';
@@ -67,3 +68,4 @@ export const contactSlice = createSlice({
       );
   },
 });
+export const contactsReducer = contactSlice.reducer;

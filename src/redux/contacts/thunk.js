@@ -8,6 +8,7 @@ import {
 export const getContactsThunk = createAsyncThunk('contacts/get', () =>
   getContacts()
 );
+
 export const createContactsThunk = createAsyncThunk('contacts/post', data =>
   createContact(data)
 );
